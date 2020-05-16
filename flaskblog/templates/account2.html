@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+{% if form %}
+    {% set active_page = "account" %}
+{% endif %}
+{% block content %}
+    <div class="content-section content-fit">
+        <div class="d-flex justify-content-center">
+            <img class="rounded-circle account-img" src="{{ image_file }}">
+        </div>
+        
+        {% if form %}
+        <div class="d-flex justify-content-center">
+            <!--OPEN MODAL BUTTON-->
+            <button class="btn btn-sm btn-dark" data-toggle="modal" data-target="#confirmDeleteCheck">
+                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                <i class="fas fa-image"></i> Change picture
+            </button>
+
+            <!--CONFIRM MODAL-->
+            <div class="modal fade" id="confirmDeleteCheck" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="deleteModalLabel">Upload photo</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" action="" enctype="multipart/form-data">
+                                {{ form.hidden_tag() }}
+                                <fieldset class="form-group">
+                                    <div class="form-group">
+                                        {{ form.picture.label() }}
+                                        <span data-toggle="tooltip" title="Allowed extensions: .jpg, .png">
+                                            <i class="fas fa-info-circle"></i>
+                                        </span>
+                                        {{ form.picture(class="form-control-file") }}
+                                        {% if form.picture.errors %}
+                                            {% for error in form.picture.errors %}
+                                                <span class="text-danger">{{ error }}</span></br>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                </fieldset>
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                        <i class="fas fa-times"></i> Close
+                                    </button>
+                                    {{ form.submit(class="btn btn-dark") }}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="mt-4">
+            <div class="table-responsive table-striped">
+                <table class="table">
+                    <tr>
+                        <th colspan="2">
+                            <h4>Account info</h4>
+                        </th>
+                    </tr>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <td scope="col">{{user.username}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Email</th>
+                        <td scope="col">{{user.email}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+{% endblock content %}

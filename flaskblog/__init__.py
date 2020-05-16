@@ -4,7 +4,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
 from flaskblog.config import Config
-
+from flask_assets import Bundle, Environment
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
@@ -22,6 +22,14 @@ def create_app(config_class=Config):
     bcrypt.init_app(app)
     login_manager.init_app(app)
     mail.init_app(app)
+
+    assets = Environment(app)
+    js = Bundle('js/jquery.js','js/popper.min.js','js/bootstrap.min.js','js/chosen.jquery.min.js',
+                'js/codemirror.js', 'js/codemirrorscroll.js', output='js/combined.js')
+    assets.register('main_js',js)
+    css = Bundle('css/bootstrap.css', 'css/main.css', 'css/fontawesome.css',
+                'css/chosen.css', 'css/codemirror.css', output='css/combined.css')
+    assets.register('main_css',css)
 
     from flaskblog.users.routes import users
     from flaskblog.posts.routes import posts

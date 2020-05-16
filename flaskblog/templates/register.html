@@ -1,72 +1,190 @@
 {% extends "layout.html" %}
+{% set active_page = "register" %}
 {% block content %}
-    <div class="content-section">
-        <form method="POST" action="">
+<article class="media content-section">
+    <div class="media-body">
+        <div class="article-metadata">
+            <h4 class="mr-2 pb-3 article-title border-bottom">Register</h4>
+        </div>
+        <form action="" method="POST">
             {{ form.hidden_tag() }}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4">Join Today</legend>
+                
                 <div class="form-group">
-                    {{ form.username.label(class="form-control-label") }}
-
+                    {{ form.username.label(class="form-control-label") }}(*)
+                    <span data-toggle="tooltip" title="Username must be between 4 and 20 characters">
+                        <i class="fas fa-info-circle"></i>
+                    </span>
                     {% if form.username.errors %}
-                        {{ form.username(class="form-control form-control-lg is-invalid") }}
+                        {{ form.username(class="form-control form-control-lg is-invalid username") }}
                         <div class="invalid-feedback">
                             {% for error in form.username.errors %}
-                                <span>{{ error }}</span>
+                                <span id="old-error-username">{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.username(class="form-control form-control-lg") }}
+                        {{ form.username(class="form-control form-control-lg username") }}
                     {% endif %}
+                    <div class="invalid-feedback">
+                        <span id="feedback-username"></span>
+                    </div>
                 </div>
                 <div class="form-group">
-                    {{ form.email.label(class="form-control-label") }}
+                    {{ form.email.label(class="form-control-label") }} (*)
                     {% if form.email.errors %}
-                        {{ form.email(class="form-control form-control-lg is-invalid") }}
+                        {{ form.email(class="form-control form-control-lg is-invalid email") }}
                         <div class="invalid-feedback">
                             {% for error in form.email.errors %}
-                                <span>{{ error }}</span>
+                                <span id="old-error-email">{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.email(class="form-control form-control-lg") }}
+                        {{ form.email(class="form-control form-control-lg email") }}
                     {% endif %}
+                    <div class="invalid-feedback">
+                        <span id="feedback-email"></span>
+                    </div>
                 </div>
                 <div class="form-group">
                     {{ form.password.label(class="form-control-label") }}
+                    (*)
+                    <span data-toggle="tooltip" title="Password must have minimum 6 characters. It is recomended to contain at least 1 number and 1 special character">
+                        <i class="fas fa-info-circle"></i>
+                    </span>
+                    
                     {% if form.password.errors %}
-                        {{ form.password(class="form-control form-control-lg is-invalid") }}
+                        {{ form.password(class="form-control form-control-lg is-invalid parola") }}
                         <div class="invalid-feedback">
                             {% for error in form.password.errors %}
-                                <span>{{ error }}</span>
+                                <span id="old-error-parola">{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.password(class="form-control form-control-lg") }}
+                        {{ form.password(class="form-control form-control-lg parola") }}
                     {% endif %}
+                    <div class="invalid-feedback">
+                        <span id="feedback-parola"></span>
+                    </div>
                 </div>
                 <div class="form-group">
-                    {{ form.confirm_password.label(class="form-control-label") }}
+                    {{ form.confirm_password.label(class="form-control-label") }}(*)
                     {% if form.confirm_password.errors %}
-                        {{ form.confirm_password(class="form-control form-control-lg is-invalid") }}
+                        {{ form.confirm_password(class="form-control form-control-lg is-invalid confirm-parola") }}
                         <div class="invalid-feedback">
                             {% for error in form.confirm_password.errors %}
-                                <span>{{ error }}</span>
+                                <span id="old-error-confirm-parola">{{ error }}</span>
                             {% endfor %}
                         </div>
                     {% else %}
-                        {{ form.confirm_password(class="form-control form-control-lg") }}
+                        {{ form.confirm_password(class="form-control form-control-lg confirm-parola") }}
                     {% endif %}
+                    <div class="invalid-feedback">
+                        <span id="feedback-confirm-parola"></span>
+                    </div>
                 </div>
             </fieldset>
             <div class="form-group">
-                {{ form.submit(class="btn btn-outline-info") }}
+                 {{ form.submit(class="btn btn-dark") }}
             </div>
         </form>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Already have an account? <a href="{{ url_for('users.login') }}" class="ml-2">Login</a>
+            </small>
+        </div>
     </div>
-    <div class="border-top pt-3">
-        <small class="text-muted">
-            Already Have An Account? <a class="ml-2" href="{{ url_for('users.login') }}">Sign In</a>
-        </small>
-    </div>
-{% endblock content %}
+</article>
+<script>
+    // USERNAME VALIDATION 
+    function test_username(){
+        $(".username").removeClass("is-invalid");
+        if($("#old-error-username") !== null)
+            $("#old-error-username").text("");
+
+        var len = $(".username").val().length;
+
+        if(len <4 || len >20){
+            $(".username").addClass("is-invalid");
+            $("#feedback-username").text("Username must be between 4 and 20 characters");
+        }
+    }
+    $(".username").focusout(test_username);
+    $(".username").focus(function(){
+        $(".username").removeClass("is-invalid");
+        if($("#old-error-username") !== null)
+            $("#old-error-username").text("");
+        $("#feedback-username").text("");
+    });
+
+    // EMAIL VALIDATION
+    function isEmail(email) {
+        var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        return regex.test(email);
+    }
+    function test_email(){
+        $(".email").removeClass("is-invalid");
+        if($("#old-error-email") !== null)
+            $("#old-error-email").text("");
+
+        if(!isEmail($(".email").val())){
+            $(".email").addClass("is-invalid");
+            $("#feedback-email").text("Invalid email format");
+        }
+    }
+    $(".email").focusout(test_email);
+    $(".email").focus(function(){
+        $(".email").removeClass("is-invalid");
+        if($("#old-error-email") !== null)
+            $("#old-error-email").text("");
+        $("#feedback-email").text("");
+    });
+
+    // PASSWORD VALIDATION
+    function test_parola(){
+        $(".parola").removeClass("is-invalid");
+        if($("#old-error-parola") !== null)
+            $("#old-error-parola").text("");
+
+        var len = $(".parola").val().length;
+
+        if(len < 6 || len >50){
+            $(".parola").addClass("is-invalid");
+            $("#feedback-parola").text("Password must be between 4 and 50 characters");
+        }
+    }
+    $(".parola").focusout(test_parola);
+    $(".parola").focus(function(){
+        $(".parola").removeClass("is-invalid");
+        if($("#old-error-parola") !== null)
+            $("#old-error-parola").text("");
+        $("#feedback-parola").text("");
+    });
+
+    // CONFIRM PASSWORD VALIDATION
+
+    function areTheSame(pass,confirm) {
+        if ( pass !== confirm)
+            return false;
+        else
+            return true;
+    }
+    function test_confirm(){
+        $(".confirm-parola").removeClass("is-invalid");
+        if($("#old-error-confirm-parolal") !== null)
+            $("#old-error-confirm-parola").text("");
+
+        if(!areTheSame($(".confirm-parola").val(),$(".parola").val())){
+            $(".confirm-parola").addClass("is-invalid");
+            $("#feedback-confirm-parola").text("Passwords are not the same");
+        }
+    }
+    $(".confirm-parola").focusout(test_confirm);
+    $(".confirm-parola").focus(function(){
+        $(".confirm-parola").removeClass("is-invalid");
+        if($("#old-error-confirm-parolal") !== null)
+            $("#old-error-confirm-parola").text("");
+        $("#feedback-confirm-parola").text("");
+    });
+
+</script>
+{% endblock %}

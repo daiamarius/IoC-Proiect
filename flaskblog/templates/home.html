@@ -1,27 +1,59 @@
 {% extends "layout.html" %}
 {% block content %}
-    {% for post in posts.items %}
-        <article class="media content-section">
-          <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
-          <div class="media-body">
-            <div class="article-metadata">
-              <a class="mr-2" href="{{ url_for('users.user_posts', username=post.author.username) }}">{{ post.author.username }}</a>
-              <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
-            </div>
-            <h2><a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></h2>
-            <p class="article-content">{{ post.content }}</p>
+<article class="media content-section content-fit">
+  <div class="media-body">
+    <div class="article-metadata d-flex flex-row  position-relative">
+      <h4 class="pl-2 article-title">Announcements</h4>
+      <div class="pl-2 pb-1 align-self-end">
+        <em class="gray">
+          {{ posts.items|length }} total
+        </em>
+      </div>
+    </div>
+
+    <div>
+      <form action="">
+        <div class="input-group mt-2 mb-2">
+          <input type="text" class="form-control" placeholder="Search ...">
+          <div class="input-group-btn">
+            <button type="submit" class="btn btn-dark ml-1">
+              <i class="fas fa-search"></i> Search
+            </button>
           </div>
-        </article>
-    {% endfor %}
-    {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-      {% if page_num %}
-        {% if posts.page == page_num %}
-          <a class="btn btn-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
-        {% else %}
-          <a class="btn btn-outline-info mb-4" href="{{ url_for('main.home', page=page_num) }}">{{ page_num }}</a>
+        </div>
+      </form>
+      {% for post in posts.items %}
+      <article class="media content-section">
+        <img class="rounded-circle article-img" src="{{ url_for('static', filename='defaults/house.png') }}">
+        <div class="media-body">
+          <h4><a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></h4>
+          <div class="article-metadata">
+            <a class="mr-2"
+              href="{{ url_for('users.user_posts', username=post.author.username) }}">{{ post.author.username }}</a>
+            <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+          </div>
+          <p class="article-content">{{ post.content }}</p>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+    <div class="p-3">
+         
+    </div>
+
+    <div class="pagination-bottom">
+      <div class="text-center">
+      {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+        {% if page_num %}
+            {% if posts.page == page_num %}
+                <a class="btn btn-dark" href="{{ url_for('main.home', page=page_num) }}">{{page_num}}</a>
+            {% else %}
+                <a class="btn btn-outline-dark" href="{{ url_for('main.home', page=page_num) }}">{{page_num}}</a>
+            {% endif %}
         {% endif %}
-      {% else %}
-        ...
-      {% endif %}
-    {% endfor %}
+      {% endfor %}
+      </div>
+  </div>
+  </div>
+</article>
 {% endblock content %}
