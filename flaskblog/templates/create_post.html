@@ -26,8 +26,34 @@
                 </tr>
 
                 <tr>
-                    <td>{{form.postType}}</td>
-                    <td>{{form.houseType}}</td>
+                    <td>
+                        {% if form.postType.errors %}
+                        <div style="height:100%" class="form-control form-control-lg is-invalid">
+                            {{ form.postType }}
+                        </div>
+                        <div class="invalid-feedback">
+                            {% for error in form.postType.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ form.postType }}
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if form.houseType.errors %}
+                        <div style="height:100%" class="form-control form-control-lg is-invalid">
+                            {{ form.houseType }}
+                        </div>
+                        <div class="invalid-feedback">
+                            {% for error in form.houseType.errors %}
+                            <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        {{ form.houseType }}
+                        {% endif %}
+                    </td>
                 </tr>
             </table>
 

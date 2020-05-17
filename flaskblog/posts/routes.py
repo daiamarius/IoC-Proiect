@@ -2,7 +2,7 @@ from flask import (render_template, url_for, flash,
                    redirect, request, abort, Blueprint)
 from flask_login import current_user, login_required
 from flaskblog import db
-from flaskblog.models import Post
+from flaskblog.models import Post,City,Country
 from flaskblog.posts.forms import PostForm
 
 posts = Blueprint('posts', __name__)
@@ -11,9 +11,15 @@ posts = Blueprint('posts', __name__)
 @posts.route("/post/new", methods=['GET', 'POST'])
 @login_required
 def new_post():
-    form = PostForm()
+    cities=[(c.name, c.name) for c in City.query.all()]
+    countries=[(c.name, c.name) for c in Country.query.all()]
+    form = PostForm(city_choices=cities,country_choices=countries)
     if form.validate_on_submit():
-        post = Post(title=form.title.data, content=form.content.data, author=current_user)
+        #todo images
+        city = City.query.filter_by(name=form.city.data).first()
+        post = Post(title=form.title.data, content=form.content.data, author=current_user,
+        anouncement_type=form.postType.data,house_type=form.houseType.data,square_meters=form.sqMeters.data,
+        price=form.price.data,address=form.address.data,city_id=city.id)
         db.session.add(post)
         db.session.commit()
         flash('Your post has been created!', 'success')
