@@ -90,7 +90,7 @@ body {
     font-size:1rem;
   }
   .post-image{
-    max-height: 600px;
+    height: 600px;
     width: auto !important;
     display: block;
     margin-left: auto;
