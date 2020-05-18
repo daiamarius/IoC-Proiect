@@ -78,11 +78,30 @@ body {
   }
   
   .article-img {
-    height: 65px;
-    width: 65px;
+    height: 100px;
+    width: 100px;
     margin-right: 16px;
+    border-radius:5px;
   }
-  
+  .article-price{
+    font-size: 1.5rem;
+  }
+  .article-type{
+    font-size:1rem;
+  }
+  .post-image{
+    max-height: 600px;
+    width: auto !important;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .carousel{
+    background-color: var(--dark);
+  }
+  .carousel-button{
+    color: var(--lightblue) !important;
+  }
   .article-metadata {
     padding-bottom: 1px;
     margin-bottom: 4px;

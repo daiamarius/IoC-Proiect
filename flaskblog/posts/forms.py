@@ -1,8 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, TextAreaField, RadioField,IntegerField, SelectField,MultipleFileField
-from wtforms.validators import DataRequired,NumberRange,ValidationError
+from wtforms.validators import DataRequired,NumberRange,ValidationError,Length
 from flask_wtf.file import FileAllowed
-
+import subprocess
 def validate_number(a):
     try:
         if a.isdigit():
@@ -13,7 +13,7 @@ def validate_number(a):
         return False
 
 class PostForm(FlaskForm):
-    title = StringField('Title', validators=[DataRequired()])
+    title = StringField('Title', validators=[DataRequired(),Length(min=5,max=50)])
     content = TextAreaField('Content', validators=[DataRequired()])
     
     postType = RadioField('Annoucement Type', choices=[('Sell','Sell'),('Rent','Rent')], validators=[DataRequired()])
@@ -26,7 +26,7 @@ class PostForm(FlaskForm):
     country = SelectField('Country', validators=[DataRequired()])
     city = SelectField('City', validators=[DataRequired()])
 
-    address = StringField('Address', validators=[DataRequired()])
+    address = StringField('Address', validators=[DataRequired(),Length(min=5,max=50)])
 
     picture = MultipleFileField('Choose pictures', validators=[FileAllowed(['jpg', 'png'])])
 
@@ -52,9 +52,9 @@ class PostForm(FlaskForm):
     def validate_nmbRooms(self,nmbRooms):
         if not validate_number(self.nmbRooms.data):
             raise ValidationError('Please input a number!')
-        if int(self.sqMeters.data)<1:
+        if int(self.nmbRooms.data)<1:
             raise ValidationError('Please input a valid input!')
-        if int(self.sqMeters.data)>15:
+        if int(self.nmbRooms.data)>15:
             raise ValidationError('Please input a valid input!')
 
     def validate_address(self,address):

@@ -51,10 +51,10 @@ class Post(db.Model):
     house_type = db.Column(db.String(20), nullable=False)
     price = db.Column(db.Integer, nullable=False)
     square_meters = db.Column(db.Integer, nullable=False)
+    number_rooms = db.Column(db.Integer, nullable=False)
     address = db.Column(db.String(100), nullable=False)
-
-    images = db.relationship('Image', secondary=images_posts)
-
+    post = db.relationship('Image')
+    
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted}')"
 
@@ -79,4 +79,5 @@ class City(db.Model):
 class Image(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    post = db.relationship('Post', secondary=images_posts)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
+    post = db.relationship('Post', backref='images', lazy=True)
