@@ -8,6 +8,13 @@ from flaskblog.posts.utils import save_picture
 
 posts = Blueprint('posts', __name__)
 
+@posts.route("/posts")
+def browse():
+    page = request.args.get('page', 1, type=int)
+    posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
+    if not posts:
+        posts=[]
+    return render_template('browse.html', posts=posts)
 
 @posts.route("/post/new", methods=['GET', 'POST'])
 @login_required
@@ -39,7 +46,7 @@ def new_post():
 def post(post_id):
     post = Post.query.get_or_404(post_id)
     images = Image.query.filter_by(post_id=post_id)
-    return render_template('test.html',images=images, title=post.title, post=post)
+    return render_template('post.html',images=images, title=post.title, post=post)
 
 
 @posts.route("/post/<int:post_id>/update", methods=['GET', 'POST'])

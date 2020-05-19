@@ -62,6 +62,10 @@ def account():
                            image_file=image_file, form=form)
 
 
+@users.route("/favorites", methods=['GET'])
+def favorites():
+    return render_template('favorites.html', title='Favorites')
+
 
 @users.route("/user/<string:username>")
 def user_posts(username):

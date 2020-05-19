@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+{% set active_page = "announcements" %}
+{% block content %}
+<article class="media content-section content-fit">
+  <div class="media-body">
+    <div class="article-metadata d-flex flex-row  position-relative">
+      <h4 class="pl-2 article-title">Announcements</h4>
+      <div class="pl-2 pb-1 align-self-end">
+        <em class="gray">
+          {{ posts.items|length }} total
+        </em>
+      </div>
+    </div>
+
+    <div>
+      <form action="">
+        <div class="input-group mt-2 mb-2">
+          <input type="text" class="form-control" placeholder="Search ...">
+          <div class="input-group-btn">
+            <button type="submit" class="btn btn-dark ml-1">
+              <i class="fas fa-search"></i> Search
+            </button>
+          </div>
+        </div>
+      </form>
+      {% for post in posts.items %}
+      <article class="media content-section table-row" data-href="{{ url_for('posts.post', post_id=post.id) }}">
+        <div class="article-metadata">
+          {% if post.images[0] %}
+          <img class="article-img" src="/static/post_pics/{{post.images[0].name}}">
+          {% else %}
+          <img class="rounded-circle article-img" src="{{ url_for('static', filename='defaults/house.png') }}">
+          {% endif %}
+          <p class="article-price text-center">{{post.price}} €</p>
+        </div>
+        <div class="media-body">
+          <h4><a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></h4>
+          <div class="article-metadata">
+            <a class="mr-2"
+              href="{{ url_for('users.user_posts', username=post.author.username) }}">{{ post.author.username }}</a>
+            <a class="btn btn-info badge float-right article-type">{{ post.anouncement_type }}</a>
+          </div>
+          <div class="article-metadata">
+            <small class="text-muted">{{post.city.name}}, {{post.address}}</small>
+          </div>
+          <div class="article-metadata">
+            <small class="text-muted">{{post.house_type}}, {{post.square_meters}} m², {{post.number_rooms}} rooms</small>
+          </div>
+          <div class="article-metadata">
+            <small class="text-muted">{{ post.date_posted.strftime('%H:%M %d-%B-%Y') }}</small>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+    <div class="p-3">
+         
+    </div>
+
+    <div class="pagination-bottom">
+      <div class="text-center">
+      {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+        {% if page_num %}
+            {% if posts.page == page_num %}
+                <a class="btn btn-dark" href="{{ url_for('main.home', page=page_num) }}">{{page_num}}</a>
+            {% else %}
+                <a class="btn btn-outline-dark" href="{{ url_for('main.home', page=page_num) }}">{{page_num}}</a>
+            {% endif %}
+        {% endif %}
+      {% endfor %}
+      </div>
+  </div>
+  </div>
+</article>
+<script>
+  $(document).ready(function () {
+      $(".table-row").click(function() {
+          window.document.location = $(this).data("href");
+      });
+  });
+</script>
+{% endblock content %}
+
+{% block sidecol %}
+{% endblock sidecol %}

@@ -28,8 +28,9 @@ class PostForm(FlaskForm):
 
     address = StringField('Address', validators=[DataRequired(),Length(min=5,max=50)])
 
-    picture = MultipleFileField('Choose pictures', validators=[FileAllowed(['jpg', 'png'])])
+    picture = MultipleFileField('Choose pictures', validators=[FileAllowed(['jpg', 'png'],"Wrong format! Allowed: .jpg, .png")])
 
+    phonenumber = StringField('Additional phone number(optional)')
     submit = SubmitField('Submit post')
 
     def __init__(self,city_choices,country_choices):
