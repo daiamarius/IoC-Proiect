@@ -64,7 +64,10 @@ def account():
 
 @users.route("/favorites", methods=['GET'])
 def favorites():
-    return render_template('favorites.html', title='Favorites')
+    user = User.query.get_or_404(current_user.id)
+    posts = user.favorites
+    print("aaawwdw")
+    return render_template('favorites.html', title='Favorites',posts=posts)
 
 
 @users.route("/user/<string:username>")
@@ -106,3 +109,4 @@ def reset_token(token):
         flash('Your password has been updated! You are now able to log in', 'success')
         return redirect(url_for('users.login'))
     return render_template('reset_token.html', title='Reset Password', form=form)
+
