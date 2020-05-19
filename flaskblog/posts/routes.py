@@ -2,7 +2,7 @@ from flask import (render_template, url_for, flash,
                    redirect, request, abort, Blueprint)
 from flask_login import current_user, login_required
 from flaskblog import db
-from flaskblog.models import Post,City,Country,Image
+from flaskblog.models import Post,City,Country,Image,User
 from flaskblog.posts.forms import PostForm
 from flaskblog.posts.utils import save_picture
 
@@ -26,14 +26,12 @@ def new_post():
     form = PostForm(city_choices=cities,country_choices=countries)
     
     if form.validate_on_submit():
-        print(form.postType.data)
         city = City.query.filter_by(name=form.city.data).first()
         post = Post(title=form.title.data, content=form.content.data, author=current_user,
         anouncement_type=form.postType.data,house_type=form.houseType.data,square_meters=form.sqMeters.data,
         price=form.price.data,address=form.address.data,city_id=city.id,number_rooms=form.nmbRooms.data,phonenumber=form.phonenumber.data)
         
-        if form.picture.data and request.files.get('file', None):
-            print(form.picture.data)
+        if form.picture.data:
             for pic in form.picture.data:
                 pic_name = save_picture(pic)
                 image = Image(name=pic_name,post=post)
@@ -102,3 +100,13 @@ def delete_post(post_id):
     flash('Your post has been deleted!', 'success')
     return redirect(url_for('posts.browse'))
 
+@posts.route("/favorite/user/<int:user_id>/post/<int:post_id>/", methods=['POST'])
+@login_required
+def favorite_post(user_id,post_id):
+    post = Post.query.get_or_404(post_id)
+    user = User.query.get_or_404(user_id)
+    if post.author == user:
+        abort(403)
+    user.favorites.append(post)
+    flash('The post has been added to favorites!', 'success')
+    return redirect(url_for('posts.post',post_id=post_id))

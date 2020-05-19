@@ -11,6 +11,12 @@ images_posts = db.Table('images_posts',
             db.Column('post_id',db.Integer,db.ForeignKey('post.id')),
             db.PrimaryKeyConstraint('image_id','post_id'))
 
+user_favorites = db.Table('user_favorites',
+            db.Column('image_id',db.Integer,db.ForeignKey('user.id')),
+            db.Column('post_id',db.Integer,db.ForeignKey('post.id')),
+            db.PrimaryKeyConstraint('image_id','post_id'))
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
@@ -20,6 +26,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
+    phonenumber = db.Column(db.String(15), nullable=False)
     image_file = db.Column(db.String(20), nullable=False, default='default.jpg')
     password = db.Column(db.String(60), nullable=False)
     posts = db.relationship('Post', backref='author', lazy=True)

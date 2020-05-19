@@ -5,7 +5,7 @@
 {% block content %}
     <div class="content-section content-fit">
         <div class="d-flex justify-content-center">
-            <img class="rounded-circle post-image" src="{{ image_file }}">
+            <img class="rounded-circle account-img" src="{{ image_file }}">
         </div>
         
         {% if form %}
@@ -72,6 +72,10 @@
                     <tr>
                         <th scope="col">Email</th>
                         <td scope="col">{{user.email}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="col">Phone Number</th>
+                        <td scope="col">{{user.phonenumber}}</td>
                     </tr>
                 </table>
             </div>

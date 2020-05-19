@@ -46,6 +46,22 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    {{ form.phonenumber.label(class="form-control-label") }} (*)
+                    {% if form.phonenumber.errors %}
+                        {{ form.phonenumber(class="form-control form-control-lg is-invalid email") }}
+                        <div class="invalid-feedback">
+                            {% for error in form.email.errors %}
+                                <span id="old-error-phonenumber">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.phonenumber(class="form-control form-control-lg ") }}
+                    {% endif %}
+                    <div class="invalid-feedback">
+                        <span></span>
+                    </div>
+                </div>
+                <div class="form-group">
                     {{ form.password.label(class="form-control-label") }}
                     (*)
                     <span data-toggle="tooltip" title="Password must have minimum 6 characters. It is recomended to contain at least 1 number and 1 special character">
