@@ -108,5 +108,14 @@ def favorite_post(user_id,post_id):
     if post.author == user:
         abort(403)
     user.favorites.append(post)
+    db.session.commit()
     flash('The post has been added to favorites!', 'success')
     return redirect(url_for('posts.post',post_id=post_id))
+
+@posts.route("/favorites",methods=['GET'])
+@login_required
+def favorites():
+    user = User.query.get_or_404(current_user.id)
+    posts = user.favorites
+    print("aaawwdw")
+    return render_template('favorites.html', title='Favorites',posts=posts)

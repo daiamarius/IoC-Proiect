@@ -31,6 +31,9 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable=False)
     posts = db.relationship('Post', backref='author', lazy=True)
 
+
+    favorites = db.relationship('Post', secondary=user_favorites)
+
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
         return s.dumps({'user_id': self.id}).decode('utf-8')
@@ -62,6 +65,8 @@ class Post(db.Model):
     address = db.Column(db.String(100), nullable=False)
     phonenumber = db.Column(db.String(15), nullable=True)
     post = db.relationship('Image')
+
+    favorited = db.relationship('User', secondary=user_favorites)
     
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted}')"
