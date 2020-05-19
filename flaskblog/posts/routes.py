@@ -12,9 +12,11 @@ posts = Blueprint('posts', __name__)
 def browse():
     page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
+    cities = City.query.all()
+    countries = Country.query.all()
     if not posts:
         posts=[]
-    return render_template('browse.html', posts=posts)
+    return render_template('browse.html', posts=posts,cities=cities,countries=countries)
 
 @posts.route("/post/new", methods=['GET', 'POST'])
 @login_required

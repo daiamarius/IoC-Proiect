@@ -34,7 +34,7 @@
             <a class="collapsed" data-toggle="collapse" data-parent="#accordionEx1" href="#collapseTwo1"
               aria-expanded="false" aria-controls="collapseTwo1">
               <h5 class="mb-0">
-                Filters <i class="fas fa-angle-down rotate-icon"></i>
+                <i class="fas fa-sort-amount-down float-right"></i>Filters <i class="fas fa-angle-down rotate-icon"></i>
               </h5>
             </a>
           </div>
@@ -43,21 +43,80 @@
           <div id="collapseTwo1" class="collapse" role="tabpanel" aria-labelledby="headingTwo1"
             data-parent="#accordionEx1">
             <div class="card-body">
-              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3
-              wolf
-              moon
-              officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod.
-              Brunch
-              3
-              wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda
-              shoreditch
-              et.
-              Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-              Ad
-              vegan
-              excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth
-              nesciunt
-              you probably haven't heard of them accusamus labore sustainable VHS.
+
+              <div class="form-group">
+                <h6>Announcement type:</h6>
+                <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" id="buy" name="announcement_type">
+                  <label class="custom-control-label" for="buy"> Buy</label>
+                </div>
+                <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" id="rent" name="announcement_type" checked>
+                  <label class="custom-control-label" for="rent"> Rent</label>
+                </div>
+              </div>
+              <div class="form-group">
+                <h6>Immobile type:</h6>
+                <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" id="house" name="house_type">
+                  <label class="custom-control-label" for="house"> House</label>
+                </div>
+                <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" id="apartment" name="house_type" checked>
+                  <label class="custom-control-label" for="apartment"> Apartment</label>
+                </div>
+              </div>
+              <table class="form-group" style="width: 100%;">
+                <tr>
+                  <th>Country</th>
+                  <th>City</th>
+                </tr>
+                <tr>
+                  <td>
+                    <select id="templates" data-live-search="true" title="Select a country"
+                    class="form-control form-control-lg selectpicker">
+                      {% for country in countries %}
+                        <option value="{{country.name}}">{{country.name}}</option>
+                      {% endfor %}
+                    </select>
+                  </td>
+                  <td>
+                    <select id="templates" data-live-search="true" title="Select a country"
+                      class="form-control form-control-lg selectpicker">
+                      {% for city in cities %}
+                        <option value="{{city.name}}">{{city.name}}</option>
+                      {% endfor %}
+                    </select>
+                  </td>
+                </tr>
+              </table>
+              <table class="form-group" style="width: 100%;">
+                <h6 class="mb-2">Square footage</h6>
+                <tr>
+                  <td class="text-right">1</td>
+                  <td width="90%"> 
+                    <div class="slidecontainer">
+                      <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+                    </div>
+                  </td>
+                  <td>100</td>
+                </tr>
+              </table>
+
+              <table class="form-group" style="width: 100%;">
+                <h6 class="mb-2">Price</h6>
+                <tr>
+                  <td class="text-right">400</td>
+                  <td width="90%"> 
+                    <div class="slidecontainer">
+                      <input type="range" min="1" max="100" value="50" class="slider" id="myRange2">
+                    </div>
+                  </td>
+                  <td>543543</td>
+                </tr>
+              </table>
+
+              <button class="btn btn-dark">Apply filters</button>
             </div>
           </div>
 
@@ -92,7 +151,7 @@
           <div class="article-metadata">
             <small class="text-muted">{{ post.date_posted.strftime('%H:%M %d-%B-%Y') }}</small>
             {% if current_user %}
-            <a class="btn btn-danger float-right article-type"><i class="fas fa-heart"></i> Add to favorites</a>
+            <a class="btn btn-danger white float-right article-type"><i class="fas fa-heart"></i> Add to favorites</a>
             {% endif %}
           </div>
         </div>
