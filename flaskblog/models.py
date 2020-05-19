@@ -53,6 +53,7 @@ class Post(db.Model):
     square_meters = db.Column(db.Integer, nullable=False)
     number_rooms = db.Column(db.Integer, nullable=False)
     address = db.Column(db.String(100), nullable=False)
+    phonenumber = db.Column(db.String(15), nullable=True)
     post = db.relationship('Image')
     
     def __repr__(self):

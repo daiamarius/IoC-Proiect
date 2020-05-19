@@ -22,11 +22,17 @@
       {% endfor %}
     </ol>
     <div class="carousel-inner">
-      {% for image in images %}
-        <div class="carousel-item {{ 'active' if loop.index == 1 else '' }}">
-          <img class="d-block w-100 post-image" src="/static/post_pics/{{image.name}}">
+      {% if images.items %}
+        {% for image in images %}
+          <div class="carousel-item {{ 'active' if loop.index == 1 else '' }}">
+            <img class="d-block w-100 post-image" src="/static/post_pics/{{image.name}}">
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="carousel-item active">
+          <img class="d-block w-100 post-image" src="/static/defaults/house.png">
         </div>
-      {% endfor %}
+      {% endif %}
     </div>
     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
