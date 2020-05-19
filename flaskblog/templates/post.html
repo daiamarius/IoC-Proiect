@@ -3,10 +3,9 @@
 {% block content %}
 <article class=" content-section">
   <h2 class="article-title border-bottom mb-0">{{ post.title }}</h2>
-  <div class="article-metadata mb-3">
-    <a class="mr-2" href="{{ url_for('users.user_posts', username=post.author.username) }}">{{ post.author.username }}</a>
-    <small class="text-muted">{{ post.date_posted.strftime('%H:%M %d-%B-%Y') }}</small><br>
+  <div class="article-metadata mb-5">
     <small class="text-muted">{{post.city.name}}, {{post.address}}</small>
+    <small class="text-muted float-right">{{ post.date_posted.strftime('%H:%M %d-%B-%Y') }}</small><br>
     {% if post.author == current_user %}
     <div class="float-right">
       <a class="btn btn-secondary btn-sm" href="{{ url_for('posts.update_post', post_id=post.id) }}">Update</a>
@@ -94,3 +93,29 @@
   </div>
 </div>
 {% endblock content %}
+{% block sidecol %}
+  <div class="content-section user-bg">
+    <h6>Contact</h6>
+    <div class="d-flex">
+      <div class="pl-3 pr-5 table-row"
+        data-href="{{ url_for('users.user_posts', username=post.author.username) }}">
+        <img class="rounded-circle post-account-img" src="/static/profile_pics/{{post.author.image_file}}">
+
+          <a class="ml-2"
+          href="{{ url_for('users.user_posts', username=post.author.username) }}">{{ post.author.username }}</a>
+          
+      </div>
+    </div>
+    <div class="d-flex pl-2">
+      <a class="btn btn-success badge m-2 p-2"><i class="fas fa-phone"></i></a>
+      <p class="p-1 m-2">0733 222 444</p>
+    </div>
+    <script>
+      $(document).ready(function () {
+        $(".table-row").click(function () {
+          window.document.location = $(this).data("href");
+        });
+      });
+    </script>
+
+{% endblock %}

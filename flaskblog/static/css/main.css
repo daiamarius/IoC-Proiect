@@ -141,6 +141,23 @@ body {
     margin-top:0.75rem;
     margin-bottom:0.75rem;
   }
+  a{
+    color: var(--lightblue);
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  .post-account-img {
+    height: 40px;
+    width: 40px;
+    margin-right: 20px;
+    margin-bottom: 16px;
+    text-align: center;
+    justify-content: center;
+    padding: 0;
+    margin:0;
+    margin-top:0.75rem;
+    margin-bottom:0.75rem;
+  }
   
   .account-heading {
     font-size: 2.5rem;
@@ -532,6 +549,11 @@ body {
   border-radius: 50%; 
   background: var(--darkred);
   cursor: pointer;
+}
+.user-bg{
+  background-color:var(--fadegray);
+  border-radius: 10px;
+  border: 1px solid var(--darkgreen);
 }
 
 .slider::-moz-range-thumb {
