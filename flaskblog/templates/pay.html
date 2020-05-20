@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-{% set active_page = "about" %}
+{% set active_page = "newpost" %}
 {% block content %}
 <article class="media content-section">
     <div class="media-body">
@@ -34,33 +34,41 @@
                 {{ form.cardnumber(class="form-control form-control-lg ") }}
                 {% endif %}
             </div>
+            <table style="width: 100%;">
+                <tr>
+                    <td style="width: 50%;">
+                        <div class="form-group">
+                            {{ form.expirationdate.label(class="form-control-label") }} (*)
+                            {% if form.expirationdate.errors %}
+                            {{ form.expirationdate(class="form-control form-control-lg is-invalid email") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.email.errors %}
+                                <span id="old-error-phonenumber">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.expirationdate(class="form-control form-control-lg ") }}
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td style="width: 50%;">
+                        <div class="form-group">
+                            {{ form.cpv.label(class="form-control-label") }} (*)
+                            {% if form.cpv.errors %}
+                            {{ form.cpv(class="form-control form-control-lg is-invalid email") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.email.errors %}
+                                <span id="old-error-phonenumber">{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.cpv(class="form-control form-control-lg ") }}
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            </table>
 
-            <div class="form-group">
-                {{ form.expirationdate.label(class="form-control-label") }} (*)
-                {% if form.expirationdate.errors %}
-                {{ form.expirationdate(class="form-control form-control-lg is-invalid email") }}
-                <div class="invalid-feedback">
-                    {% for error in form.email.errors %}
-                    <span id="old-error-phonenumber">{{ error }}</span>
-                    {% endfor %}
-                </div>
-                {% else %}
-                {{ form.expirationdate(class="form-control form-control-lg ") }}
-                {% endif %}
-            </div>
-            <div class="form-group">
-                {{ form.cpv.label(class="form-control-label") }} (*)
-                {% if form.cpv.errors %}
-                {{ form.cpv(class="form-control form-control-lg is-invalid email") }}
-                <div class="invalid-feedback">
-                    {% for error in form.email.errors %}
-                    <span id="old-error-phonenumber">{{ error }}</span>
-                    {% endfor %}
-                </div>
-                {% else %}
-                {{ form.cpv(class="form-control form-control-lg ") }}
-                {% endif %}
-            </div>
             <div class="form-group">
                 {{ form.submit(class="btn btn-dark") }}
             </div>

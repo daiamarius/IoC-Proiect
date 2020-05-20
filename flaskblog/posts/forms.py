@@ -69,5 +69,5 @@ class CardForm(FlaskForm):
     cardname = StringField('Name on card')
     cardnumber = StringField('Card number')
     expirationdate = StringField('Expiration Date')
-    cpv = StringField('CPV Code')
-    submit = SubmitField('Pay')
+    cpv = StringField('CVV Code')
+    submit = SubmitField('Complete payment')

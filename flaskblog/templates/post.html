@@ -44,7 +44,13 @@
   </div>
   {% if post.author != current_user %}
   <form method="POST" action="{{ url_for('posts.favorite_post', post_id=post.id,user_id=current_user.id) }}">
-    <button class="btn btn-danger white float-right article-type m-2"><i class="fas fa-heart"></i> Add to favorites</button>
+    <button class="btn btn-danger white float-right article-type m-2"  {{ 'disabled' if post in user.favorites }}><i class="fas fa-heart"></i>
+      {% if post in user.favorites %}
+        Favorited
+      {% else %}
+        Add to favorites
+      {% endif %}
+      </button>
   </form>
   {% endif %}
   <h4 class="mt-2">Base info</h4>
