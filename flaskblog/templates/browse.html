@@ -73,7 +73,7 @@
                 </tr>
                 <tr>
                   <td>
-                    <select id="templates" data-live-search="true" title="Select a country"
+                    <select id="country" data-live-search="true" title="Select a country"
                     class="form-control form-control-lg selectpicker">
                       {% for country in countries %}
                         <option value="{{country.name}}">{{country.name}}</option>
@@ -81,7 +81,7 @@
                     </select>
                   </td>
                   <td>
-                    <select id="templates" data-live-search="true" title="Select a country"
+                    <select id="city" data-live-search="true" title="Select a country"
                       class="form-control form-control-lg selectpicker">
                       {% for city in cities %}
                         <option value="{{city.name}}">{{city.name}}</option>
@@ -90,11 +90,12 @@
                   </td>
                 </tr>
               </table>
+              
               <table class="form-group" style="width: 100%;">
                 <h6 class="mb-2">Square footage</h6>
                 <tr>
                   <td class="text-right">1</td>
-                  <td width="90%"> 
+                  <td width="80%"> 
                     <div class="slidecontainer">
                       <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
                     </div>
@@ -107,7 +108,7 @@
                 <h6 class="mb-2">Price</h6>
                 <tr>
                   <td class="text-right">400</td>
-                  <td width="90%"> 
+                  <td width="80%"> 
                     <div class="slidecontainer">
                       <input type="range" min="1" max="100" value="50" class="slider" id="myRange2">
                     </div>
@@ -165,9 +166,9 @@
       {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
         {% if page_num %}
             {% if posts.page == page_num %}
-                <a class="btn btn-dark" href="{{ url_for('main.home', page=page_num) }}">{{page_num}}</a>
+                <a class="btn btn-dark" href="{{ url_for('posts.browse', page=page_num) }}">{{page_num}}</a>
             {% else %}
-                <a class="btn btn-outline-dark" href="{{ url_for('main.home', page=page_num) }}">{{page_num}}</a>
+                <a class="btn btn-outline-dark" href="{{ url_for('posts.browse', page=page_num) }}">{{page_num}}</a>
             {% endif %}
         {% endif %}
       {% endfor %}
@@ -180,6 +181,8 @@
       $(".table-row").click(function() {
           window.document.location = $(this).data("href");
       });
+      $('#country').selectpicker();
+      $('#city').selectpicker();
   });
 </script>
 {% endblock content %}

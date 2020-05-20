@@ -3,7 +3,7 @@ from flask import (render_template, url_for, flash,
 from flask_login import current_user, login_required
 from flaskblog import db
 from flaskblog.models import Post,City,Country,Image,User
-from flaskblog.posts.forms import PostForm
+from flaskblog.posts.forms import PostForm,CardForm
 from flaskblog.posts.utils import save_picture
 
 posts = Blueprint('posts', __name__)
@@ -38,8 +38,8 @@ def new_post():
                 db.session.add(image)
         db.session.add(post)
         db.session.commit()
-        flash('Your post has been created!', 'success')
-        return redirect(url_for('posts.post',post_id=post.id))
+        #flash('Your post has been created!', 'success')
+        return redirect(url_for('posts.payment',post_id=post.id))
     return render_template('create_post.html', title='New Post',
                            form=form, legend='New Post')
 
@@ -114,4 +114,18 @@ def favorite_post(user_id,post_id):
         return redirect(url_for('posts.post',post_id=post_id))
     db.session.commit()
     flash('The post has been added to favorites!', 'success')
+    return redirect(url_for('posts.post',post_id=post_id))
+
+@posts.route("/payment/<int:post_id>/", methods=['GET','POST'])
+@login_required
+def payment(post_id):
+    form = CardForm()
+    if form.validate_on_submit():
+        return redirect(url_for('posts.post',post_id=post_id))
+    return render_template('pay.html', title='Pay',form=form,post_id=post_id)
+
+@posts.route("/payment_completed/<int:post_id>/", methods=['GET'])
+@login_required
+def payment_completed(post_id):
+    flash('Your post has been created!', 'success')
     return redirect(url_for('posts.post',post_id=post_id))

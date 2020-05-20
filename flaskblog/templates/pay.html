@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+{% set active_page = "about" %}
+{% block content %}
+<article class="media content-section">
+    <div class="media-body">
+        <div class="article-metadata">
+            <h4 class="mr-2 pb-3 article-title border-bottom">Payment for your post</h4>
+        </div>
+        <form action="{{ url_for('posts.payment_completed', post_id=post_id) }}">
+            <div class="form-group">
+                {{ form.cardname.label(class="form-control-label") }} (*)
+                {% if form.cardname.errors %}
+                {{ form.cardname(class="form-control form-control-lg is-invalid email") }}
+                <div class="invalid-feedback">
+                    {% for error in form.email.errors %}
+                    <span id="old-error-phonenumber">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.cardname(class="form-control form-control-lg ") }}
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.cardnumber.label(class="form-control-label") }} (*)
+                {% if form.cardnumber.errors %}
+                {{ form.cardnumber(class="form-control form-control-lg is-invalid email") }}
+                <div class="invalid-feedback">
+                    {% for error in form.email.errors %}
+                    <span id="old-error-phonenumber">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.cardnumber(class="form-control form-control-lg ") }}
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                {{ form.expirationdate.label(class="form-control-label") }} (*)
+                {% if form.expirationdate.errors %}
+                {{ form.expirationdate(class="form-control form-control-lg is-invalid email") }}
+                <div class="invalid-feedback">
+                    {% for error in form.email.errors %}
+                    <span id="old-error-phonenumber">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.expirationdate(class="form-control form-control-lg ") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.cpv.label(class="form-control-label") }} (*)
+                {% if form.cpv.errors %}
+                {{ form.cpv(class="form-control form-control-lg is-invalid email") }}
+                <div class="invalid-feedback">
+                    {% for error in form.email.errors %}
+                    <span id="old-error-phonenumber">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% else %}
+                {{ form.cpv(class="form-control form-control-lg ") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-dark") }}
+            </div>
+        </form>
+    </div>
+</article>
+{% endblock content%}

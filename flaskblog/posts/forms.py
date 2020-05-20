@@ -14,7 +14,7 @@ def validate_number(a):
 
 class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired(),Length(min=5,max=50)])
-    content = TextAreaField('Content', validators=[DataRequired()])
+    content = TextAreaField('Additional details', validators=[DataRequired()])
     
     postType = RadioField('Annoucement Type', choices=[('Sell','Sell'),('Rent','Rent')], validators=[DataRequired()])
     houseType = RadioField('Immobile Type', choices=[('Apartment', 'Apartment'),('House', 'House')], validators=[DataRequired()])
@@ -63,3 +63,11 @@ class PostForm(FlaskForm):
             raise ValidationError('Address too short!')
         if len(self.address.data)>30:
             raise ValidationError('Address too long!')
+
+
+class CardForm(FlaskForm):
+    cardname = StringField('Name on card')
+    cardnumber = StringField('Card number')
+    expirationdate = StringField('Expiration Date')
+    cpv = StringField('CPV Code')
+    submit = SubmitField('Pay')
